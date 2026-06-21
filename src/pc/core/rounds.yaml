@@ -1,0 +1,58 @@
+# Game rounds configuration for Rise of Babel
+# Each round has a target word and three different clues of the same type
+
+rounds:
+  - round_number: 1
+    word: "PYTHON"
+    clue_type: "phrase"
+    clues:
+      - player: 1
+        content: "Uma cobra verde e amarela enroscada em uma maçã..."
+      - player: 2
+        content: "Linguagem usada para programação de computadores"
+      - player: 3
+        content: "Criatura que se move sem pernas"
+
+  - round_number: 2
+    word: "TOWER"
+    clue_type: "image"
+    clues:
+      - player: 1
+        content: "assets/images/placeholder.png"
+      - player: 2
+        content: "assets/images/placeholder.png"
+      - player: 3
+        content: "assets/images/placeholder.png"
+
+  - round_number: 3
+    word: "LIGHT"
+    clue_type: "sound"
+    clues:
+      - player: 1
+        content: "assets/sounds/placeholder.mp3"
+      - player: 2
+        content: "assets/sounds/placeholder.mp3"
+      - player: 3
+        content: "assets/sounds/placeholder.mp3"
+
+  - round_number: 4
+    word: "SOUND"
+    clue_type: "phrase"
+    clues:
+      - player: 1
+        content: "Ondas invisíveis que viajam no ar"
+      - player: 2
+        content: "O que você ouve quando alguém fala"
+      - player: 3
+        content: "Algo que viaja mais lentamente que a luz"
+
+  - round_number: 5
+    word: "DIGITAL"
+    clue_type: "image"
+    clues:
+      - player: 1
+        content: "assets/images/placeholder.png"
+      - player: 2
+        content: "assets/images/placeholder.png"
+      - player: 3
+        content: "assets/images/placeholder.png"
