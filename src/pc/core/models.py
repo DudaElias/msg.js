@@ -8,7 +8,8 @@ from typing import Optional
 class InformationType(Enum):
     """Types of information clues."""
 
-    SOUND = "sound"  # Audio file
+    WORD = "word" # Single word
+    AUDIO = "audio"  # Audio file
     PHRASE = "phrase"  # Text description/phrase
     IMAGE = "image"  # Image file
 
@@ -27,7 +28,8 @@ class Clue:
             Display name
         """
         names = {
-            InformationType.SOUND: "🔊 Som",
+            InformationType.AUDIO: "🔊 Áudio",
+            InformationType.WORD: "📝 Palavra",
             InformationType.PHRASE: "💬 Frase",
             InformationType.IMAGE: "🖼️ Imagem",
         }
@@ -57,15 +59,9 @@ class Round:
 
     round_number: int
     word: str
-    clue_type: InformationType
     player_sections: list[PlayerSection] = field(default_factory=list)
     guessed: bool = False
     correct_guess: bool = False
-
-    def __post_init__(self):
-        """Initialize player sections if not provided."""
-        if not self.player_sections:
-            self.player_sections = [PlayerSection(player_id=i, clue=Clue(self.clue_type, "")) for i in range(1, 4)]
 
 
 @dataclass
