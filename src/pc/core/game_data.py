@@ -2,6 +2,7 @@
 
 import os
 import yaml
+import random
 
 from .models import Clue, InformationType, PlayerSection, Round
 
@@ -19,7 +20,7 @@ def _load_rounds_config() -> dict:
         return config
     except (FileNotFoundError, yaml.YAMLError) as e:
         print(f"Error loading rounds.yaml: {e}")
-        return {"rounds": []}
+        return {}
 
 
 def create_game_rounds() -> list[Round]:
@@ -30,23 +31,26 @@ def create_game_rounds() -> list[Round]:
     """
     config = _load_rounds_config()
     rounds = []
+    selected_rounds = [
+        random.choice(config["single_word_rounds"]),
+        random.choice(config["phrase_rounds"]),
+        random.choice(config["image_rounds"]),
+        random.choice(config["audio_rounds"]),
+        random.choice(config["mixed_rounds"]),
+    ]
 
-    for round_data in config.get("rounds", []):
-        round_number = round_data["round_number"]
-        word = round_data["word"]
-        clue_type_str = round_data["clue_type"]
-        clue_type = InformationType[clue_type_str.upper()]
+    for round_number, round_data in enumerate(selected_rounds, start=1):
 
         round_obj = Round(
-            round_number=round_number,
-            word=word,
-            clue_type=clue_type
+            round_number = round_number,
+            word = round_data["word"]
         )
 
         # Create player sections with clues
         player_sections = []
-        for clue_data in round_data.get("clues", []):
+        for clue_data in round_data["clues"]:
             player_id = clue_data["player"]
+            clue_type = InformationType[clue_data["type"].upper()]
             content = clue_data["content"]
 
             player_section = PlayerSection(
