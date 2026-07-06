@@ -1,58 +1,537 @@
 # Game rounds configuration for Rise of Babel
 # Each round has a target word and three different clues of the same type
 
-rounds:
-  - round_number: 1
-    word: "PYTHON"
-    clue_type: "phrase"
+single_word_rounds:
+  - word: Gato
     clues:
       - player: 1
-        content: "Uma cobra verde e amarela enroscada em uma maçã..."
-      - player: 2
-        content: "Linguagem usada para programação de computadores"
-      - player: 3
-        content: "Criatura que se move sem pernas"
+        type: word
+        content: "Bigode"
 
-  - round_number: 2
-    word: "TOWER"
-    clue_type: "image"
-    clues:
-      - player: 1
-        content: "assets/images/placeholder.png"
       - player: 2
-        content: "assets/images/placeholder.png"
-      - player: 3
-        content: "assets/images/placeholder.png"
+        type: word
+        content: "Rabo"
 
-  - round_number: 3
-    word: "LIGHT"
-    clue_type: "sound"
-    clues:
-      - player: 1
-        content: "assets/sounds/placeholder.mp3"
-      - player: 2
-        content: "assets/sounds/placeholder.mp3"
       - player: 3
-        content: "assets/sounds/placeholder.mp3"
+        type: word
+        content: "Peludinho"
 
-  - round_number: 4
-    word: "SOUND"
-    clue_type: "phrase"
+  - word: Livro
     clues:
       - player: 1
-        content: "Ondas invisíveis que viajam no ar"
-      - player: 2
-        content: "O que você ouve quando alguém fala"
-      - player: 3
-        content: "Algo que viaja mais lentamente que a luz"
+        type: word
+        content: "Leitura"
 
-  - round_number: 5
-    word: "DIGITAL"
-    clue_type: "image"
+      - player: 2
+        type: word
+        content: "Páginas"
+
+      - player: 3
+        type: word
+        content: "História"
+
+  - word: Laranja
     clues:
       - player: 1
-        content: "assets/images/placeholder.png"
+        type: word
+        content: "Cor"
+
       - player: 2
-        content: "assets/images/placeholder.png"
+        type: word
+        content: "Fruta"
+
       - player: 3
-        content: "assets/images/placeholder.png"
+        type: word
+        content: "Bagaço"
+
+  - word: Whatsapp
+    clues:
+      - player: 1
+        type: word
+        content: "Mensagens"
+
+      - player: 2
+        type: word
+        content: "Aplicativo"
+
+      - player: 3
+        type: word
+        content: "Figurinhas"
+
+  - word: Cinema
+    clues:
+      - player: 1
+        type: word
+        content: "Filme"
+
+      - player: 2
+        type: word
+        content: "Pipoca"
+
+      - player: 3
+        type: word
+        content: "Ingresso"
+
+  - word: Fruta
+    clues:
+      - player: 1
+        type: word
+        content: "Banana"
+
+      - player: 2
+        type: word
+        content: "Manga"
+
+      - player: 3
+        type: word
+        content: "Abacaxi"
+
+  - word: Sorvete
+    clues:
+      - player: 1
+        type: word
+        content: "Casquinha"
+
+      - player: 2
+        type: word
+        content: "Gelado"
+
+      - player: 3
+        type: word
+        content: "Doce"
+
+  - word: "Cachorro"
+    clues:
+      - player: 1
+        type: word
+        content: "Latido"
+      - player: 2
+        type: word
+        content: "Passear"
+      - player: 3
+        type: word
+        content: "Rabo"
+
+  - word: "Sol"
+    clues:
+      - player: 1
+        type: word
+        content: "Quente"
+      - player: 2
+        type: word
+        content: "Estrela"
+      - player: 3
+        type: word
+        content: "Dia"
+
+  - word: "Caneta"
+    clues:
+      - player: 1
+        type: word
+        content: "Escrever"
+      - player: 2
+        type: word
+        content: "Escola"
+      - player: 3
+        type: word
+        content: "Tinta"
+
+  - word: "Avião"
+    clues:
+      - player: 1
+        type: word
+        content: "Voar"
+      - player: 2
+        type: word
+        content: "Aeroporto"
+      - player: 3
+        type: word
+        content: "Asas"
+
+  - word: "Chocolate"
+    clues:
+      - player: 1
+        type: word
+        content: "Cacau"
+      - player: 2
+        type: word
+        content: "Doce"
+      - player: 3
+        type: word
+        content: "Sobremesa"
+
+  - word: "Bicicleta"
+    clues:
+      - player: 1
+        type: word
+        content: "Pedalar"
+      - player: 2
+        type: word
+        content: "Rodas"
+      - player: 3
+        type: word
+        content: "Capacete"
+
+  - word: "Borboleta"
+    clues:
+      - player: 1
+        type: word
+        content: "Inseto"
+      - player: 2
+        type: word
+        content: "Voa"
+      - player: 3
+        type: word
+        content: "Colorida"
+
+  - word: "Dinossauro"
+    clues:
+      - player: 1
+        type: word
+        content: "Gigante"
+      - player: 2
+        type: word
+        content: "Réptil"
+      - player: 3
+        type: word
+        content: "Fósseis"
+
+phrase_rounds:
+  - word: "Casa"
+    clues:
+      - player: 1
+        type: phrase
+        content: "Lar, doce lar"
+      - player: 2
+        type: phrase
+        content: "Na rua dos bobos, número 0!"
+      - player: 3
+        type: phrase
+        content: "Todo mundo precisa de um lugar para voltar"
+
+  - word: "Filosofia"
+    clues:
+      - player: 1
+        type: phrase
+        content: "Só sei que nada sei"
+      - player: 2
+        type: phrase
+        content: "Penso, logo existo"
+      - player: 3
+        type: phrase
+        content: "Os sábios falam porque têm algo a dizer, os tolos porque precisam dizer algo"
+
+  - word: "Fogo"
+    clues:
+      - player: 1
+        type: phrase
+        content: "Onde há fumaça, ..."
+      - player: 2
+        type: phrase
+        content: "Alguém chama o bombeiro!"
+      - player: 3
+        type: phrase
+        content: "Cuidado pra não se queimar"
+
+  - word: "Brasil"
+    clues:
+      - player: 1
+        type: phrase
+        content: "Ouviram do Ipiranga às margens plácidas"
+      - player: 2
+        type: phrase
+        content: "Moro num país tropical, abençoado por Deus e bonito por natureza"
+      - player: 3
+        type: phrase
+        content: "A amazônia é o pulmão do mundo!"
+
+  - word: "Sol"
+    clues:
+      - player: 1
+        type: phrase
+        content: "Depois da chuva..."
+      - player: 2
+        type: phrase
+        content: "Usem protetor solar"
+      - player: 3
+        type: phrase
+        content: "Nasce todos os dias e ninguém aplaude"
+
+  - word: "Água"
+    clues:
+      - player: 1
+        type: phrase
+        content: "... tanto bate até que fura"
+      - player: 2
+        type: phrase
+        content: "Ele foi com muita sede ao pote"
+      - player: 3
+        type: phrase
+        content: "Os oceanos cobrem cerca de 70% da superfície terrestre."
+
+  - word: "Tempo"
+    clues:
+      - player: 1
+        type: phrase
+        content: "E o relógio vai: tic tac tic tac..."
+      - player: 2
+        type: phrase
+        content: "Rola a bola! Restam mais 45 minutos para o Brasil empatar o jogo!"
+      - player: 3
+        type: phrase
+        content: "O ontem é história, o amanhã, um mistério. Mas o hoje, é uma dádiva. É por isso que se chama presente."
+
+image_rounds:
+  - word: "Asas"
+    clues:
+      - player: 1
+        type: image
+        content: "assets/images/asas1.png"
+      - player: 2
+        type: image
+        content: "assets/images/asas2.jpeg"
+      - player: 3
+        type: image
+        content: "assets/images/asas3.jpg"
+
+  - word: "Cachorro"
+    clues:
+      - player: 1
+        type: image
+        content: "assets/images/cachorro1.png"
+      - player: 2
+        type: image
+        content: "assets/images/cachorro2.png"
+      - player: 3
+        type: image
+        content: "assets/images/cachorro3.jpeg"
+
+  - word: "Copa do Mundo"
+    clues:
+      - player: 1
+        type: image
+        content: "assets/images/copadomundo1.jpg"
+      - player: 2
+        type: image
+        content: "assets/images/copadomundo2.jpeg"
+      - player: 3
+        type: image
+        content: "assets/images/copadomundo3.jpeg"
+
+  - word: "Filme"
+    clues:
+      - player: 1
+        type: image
+        content: "assets/images/filme1.png"
+      - player: 2
+        type: image
+        content: "assets/images/filme2.jpeg"
+      - player: 3
+        type: image
+        content: "assets/images/filme3.png"
+
+  - word: "França"
+    clues:
+      - player: 1
+        type: image
+        content: "assets/images/franca1.jpg"
+      - player: 2
+        type: image
+        content: "assets/images/franca2.png"
+      - player: 3
+        type: image
+        content: "assets/images/franca3.png"
+
+  - word: "Gato"
+    clues:
+      - player: 1
+        type: image
+        content: "assets/images/gato1.png"
+      - player: 2
+        type: image
+        content: "assets/images/gato2.jpeg"
+      - player: 3
+        type: image
+        content: "assets/images/gato3.jpeg"
+
+  - word: "Jogo"
+    clues:
+      - player: 1
+        type: image
+        content: "assets/images/jogo1.jpg"
+      - player: 2
+        type: image
+        content: "assets/images/jogo2.jpeg"
+      - player: 3
+        type: image
+        content: "assets/images/jogo3.jpeg"
+
+  - word: "Laranja"
+    clues:
+      - player: 1
+        type: image
+        content: "assets/images/laranja1.jpg"
+      - player: 2
+        type: image
+        content: "assets/images/laranja2.png"
+      - player: 3
+        type: image
+        content: "assets/images/laranja3.png"
+
+  - word: "Vermelho"
+    clues:
+      - player: 1
+        type: image
+        content: "assets/images/vemelho1.jpg"
+      - player: 2
+        type: image
+        content: "assets/images/vemelho2.jpg"
+      - player: 3
+        type: image
+        content: "assets/images/vemelho3.png"
+
+audio_rounds:
+  - word: "Dinheiro"
+    clues:
+      - player: 1
+        type: audio
+        content: "assets/sounds/dinheiro1.mp3"
+      - player: 2
+        type: audio
+        content: "assets/sounds/dinheiro2.mp3"
+      - player: 3
+        type: audio
+        content: "assets/sounds/dinheiro3.mp3"
+
+  - word: "Escola"
+    clues:
+      - player: 1
+        type: audio
+        content: "assets/sounds/escola1.mp3"
+      - player: 2
+        type: audio
+        content: "assets/sounds/escola2.mp3"
+      - player: 3
+        type: audio
+        content: "assets/sounds/escola3.mp3"
+
+  - word: "Futebol"
+    clues:
+      - player: 1
+        type: audio
+        content: "assets/sounds/futebol1.mp3"
+      - player: 2
+        type: audio
+        content: "assets/sounds/futebol2.mp3"
+      - player: 3
+        type: audio
+        content: "assets/sounds/futebol3.mp3"
+
+  - word: "Hamburger"
+    clues:
+      - player: 1
+        type: audio
+        content: "assets/sounds/hamburger1.mp3"
+      - player: 2
+        type: audio
+        content: "assets/sounds/hamburger2.mp3"
+      - player: 3
+        type: audio
+        content: "assets/sounds/hamburger3.mp3"
+
+  - word: "Medo"
+    clues:
+      - player: 1
+        type: audio
+        content: "assets/sounds/medo1.mp3"
+      - player: 2
+        type: audio
+        content: "assets/sounds/medo2.mp3"
+      - player: 3
+        type: audio
+        content: "assets/sounds/medo3.mp3"
+
+  - word: "Natal"
+    clues:
+      - player: 1
+        type: audio
+        content: "assets/sounds/natal1.mp3"
+      - player: 2
+        type: audio
+        content: "assets/sounds/natal2.mp3"
+      - player: 3
+        type: audio
+        content: "assets/sounds/natal3.mp3"
+
+  - word: "Oceano"
+    clues:
+      - player: 1
+        type: audio
+        content: "assets/sounds/oceano1.mp3"
+      - player: 2
+        type: audio
+        content: "assets/sounds/oceano2.mp3"
+      - player: 3
+        type: audio
+        content: "assets/sounds/oceano3(2).mp3"
+
+  - word: "Trem"
+    clues:
+      - player: 1
+        type: audio
+        content: "assets/sounds/trem1.mp3"
+      - player: 2
+        type: audio
+        content: "assets/sounds/trem2.mp3"
+      - player: 3
+        type: audio
+        content: "assets/sounds/trem3.mp3"
+
+mixed_rounds:
+  - word: "França"
+    clues:
+      - player: 1
+        type: audio
+        content: "assets/sounds/dinheiro1.mp3"
+      - player: 2
+        type: phrase
+        content: "Érick Jacquin é um chef de cozinha, apresentador de televisão e empresário."
+      - player: 3
+        type: image
+        content: "assets/images/franca3.png"
+
+  - word: "Água"
+    clues:
+      - player: 1
+        type: audio
+        content: "assets/sounds/agua.mp3"
+      - player: 2
+        type: phrase
+        content: "Ela apresenta características muito particulares, como a polaridade de suas moléculas, que são compostas por dois átomos de hidrogênio e um de oxigênio (H2O), o alto calor específico e o pH neutro."
+      - player: 3
+        type: image
+        content: "assets/images/agua.png"
+
+  - word: "Leão"
+    clues:
+      - player: 1
+        type: audio
+        content: "assets/sounds/leao.mp3"
+      - player: 2
+        type: phrase
+        content: "Os seus problemas você deve esquecer! Isso é viver! É aprender! Hakuna Matata!"
+      - player: 3
+        type: image
+        content: "assets/images/leao.png"
+
+  - word: "Carpinteiro"
+    clues:
+      - player: 1
+        type: audio
+        content: "assets/sounds/carpinteiro.mp3"
+      - player: 2
+        type: phrase
+        content: "Projetar, construir, instalar e reparar estruturas e objetos usando madeira, painéis e derivados"
+      - player: 3
+        type: image
+        content: "assets/images/carpinteiro.png"
