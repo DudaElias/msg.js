@@ -1,5 +1,6 @@
 # Game rounds configuration for Rise of Babel
-# Each round has a target word and three different clues of the same type
+# Each round has a target word and three different clues
+# The clues may be words, phrases, images ou audios
 
 single_word_rounds:
   - word: Gato
@@ -492,46 +493,46 @@ mixed_rounds:
     clues:
       - player: 1
         type: audio
-        content: "assets/sounds/dinheiro1.mp3"
+        content: "assets/mixed/franca.mp3"
       - player: 2
         type: phrase
         content: "Érick Jacquin é um chef de cozinha, apresentador de televisão e empresário."
       - player: 3
         type: image
-        content: "assets/images/franca3.png"
+        content: "assets/mixed/franca.png"
 
   - word: "Água"
     clues:
       - player: 1
         type: audio
-        content: "assets/sounds/agua.mp3"
+        content: "assets/mixed/agua.mp3"
       - player: 2
         type: phrase
         content: "Ela apresenta características muito particulares, como a polaridade de suas moléculas, que são compostas por dois átomos de hidrogênio e um de oxigênio (H2O), o alto calor específico e o pH neutro."
       - player: 3
         type: image
-        content: "assets/images/agua.png"
+        content: "assets/mixed/agua.png"
 
   - word: "Leão"
     clues:
       - player: 1
         type: audio
-        content: "assets/sounds/leao.mp3"
+        content: "assets/mixed/leao.mp3"
       - player: 2
         type: phrase
         content: "Os seus problemas você deve esquecer! Isso é viver! É aprender! Hakuna Matata!"
       - player: 3
         type: image
-        content: "assets/images/leao.png"
+        content: "assets/mixed/leao.png"
 
   - word: "Carpinteiro"
     clues:
       - player: 1
         type: audio
-        content: "assets/sounds/carpinteiro.mp3"
+        content: "assets/mixed/carpinteiro.mp3"
       - player: 2
         type: phrase
         content: "Projetar, construir, instalar e reparar estruturas e objetos usando madeira, painéis e derivados"
       - player: 3
         type: image
-        content: "assets/images/carpinteiro.png"
+        content: "assets/mixed/carpinteiro.png"
