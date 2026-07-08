@@ -65,25 +65,22 @@ def handle_game_events(game: BabelGame, renderer: "Renderer") -> bool:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             return False
+        elif event.type == pygame.TEXTINPUT:
+            if not game.state.game_over and event.text and event.text != " ":
+                game.handle_key_input(0, event.text)
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 return False
-            elif event.key == pygame.K_r:
-                # Only restart if game is over
-                if game.state.game_over:
-                    game.reset_game()
-                else:
-                    # Pass R to game for input (typing the letter R)
-                    game.handle_key_input(event.key, event.unicode)
+            elif event.key == pygame.K_r and game.state.game_over:
+                game.reset_game()
             elif event.key == pygame.K_SPACE:
                 # Space is used for guess input during play and restart on game over
                 if game.state.game_over:
                     game.reset_game()
                 else:
-                    game.handle_key_input(event.key, event.unicode)
-            else:
-                # Pass other keys to game for input
-                game.handle_key_input(event.key, event.unicode)
+                    game.handle_key_input(event.key, "")
+            elif event.key in {pygame.K_BACKSPACE, pygame.K_RETURN, pygame.K_DELETE}:
+                game.handle_key_input(event.key, "")
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:  # Left mouse button
                 next_round_clicked = renderer.handle_click(game, event.pos)

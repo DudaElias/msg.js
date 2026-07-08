@@ -14,6 +14,7 @@ class InformationType(Enum):
     AUDIO = "audio"  # Audio file
     PHRASE = "phrase"  # Text description/phrase
     IMAGE = "image"  # Image file
+    MIXED = "mixed"  # Multiple clue types in the same round
 
 
 @dataclass
@@ -30,10 +31,11 @@ class Clue:
             Display name
         """
         names = {
-            InformationType.AUDIO: "🔊 Áudio",
-            InformationType.WORD: "📝 Palavra",
-            InformationType.PHRASE: "💬 Frase",
-            InformationType.IMAGE: "🖼️ Imagem",
+            InformationType.AUDIO: "Audio",
+            InformationType.WORD: "Palavra",
+            InformationType.PHRASE: "Frase",
+            InformationType.IMAGE: "Imagem",
+            InformationType.MIXED: "Misto",
         }
         return names.get(self.clue_type, self.clue_type.value)
 

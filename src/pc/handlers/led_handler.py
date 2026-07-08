@@ -27,6 +27,13 @@ class LEDHandler:
         event_bus.subscribe(EventType.INCORRECT_GUESS, self.on_incorrect_guess)
         event_bus.subscribe(EventType.GAME_OVER, self.on_game_over)
 
+    def _sync_tower_levels(self, completed_levels: int) -> None:
+        """Light the tower levels that have been completed so far."""
+        self.pico_link.send("CLEAR")
+
+        for level in range(1, min(completed_levels, 5) + 1):
+            self.pico_link.send(f"LEVEL{level} ON")
+
     def on_game_started(self, event: GameEvent) -> None:
         """Handle game start event.
 
@@ -34,6 +41,7 @@ class LEDHandler:
             event: The game event
         """
         self.pico_link.send("READY")
+        self._sync_tower_levels(0)
 
     def on_round_started(self, event: GameEvent) -> None:
         """Handle round start event.
@@ -51,6 +59,7 @@ class LEDHandler:
         """
         total_correct = event.data.get("total_correct", 0)
         self.pico_link.send("HIT")
+        self._sync_tower_levels(total_correct)
         self.pico_link.send(f"SCORE {total_correct}")
 
     def on_incorrect_guess(self, event: GameEvent) -> None:
@@ -68,3 +77,12 @@ class LEDHandler:
             event: The game event
         """
         self.pico_link.send("GAME_OVER")
+
+        for _ in range(3):
+            self.pico_link.send("CLEAR")
+            self.pico_link.send("LEVEL1 ON")
+            self.pico_link.send("LEVEL2 ON")
+            self.pico_link.send("LEVEL3 ON")
+            self.pico_link.send("LEVEL4 ON")
+            self.pico_link.send("LEVEL5 ON")
+            self.pico_link.send("CLEAR")

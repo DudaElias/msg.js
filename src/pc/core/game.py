@@ -44,7 +44,9 @@ class BabelGame:
         elif key == pygame.K_SPACE:
             self.state.add_guess_char(" ")
         elif text:
-            self.state.add_guess_char(text)
+            for char in text:
+                if char.isprintable() and char != "\x00":
+                    self.state.add_guess_char(char)
 
     def _publish_event(self, event_type: EventType, data: dict) -> None:
         """Publish a game event.
@@ -68,11 +70,11 @@ class BabelGame:
                 EventType.CORRECT_GUESS,
                 {"total_correct": self.state.total_correct, "round": self.state.current_round}
             )
-            self.state.set_message(f"✓ Correto! Clique em 'Próxima →' para continuar", "success")
+            self.state.set_message(f"Correto! Clique em 'Próxima'", "success")
         else:
             # Incorrect guess
             self._publish_event(EventType.INCORRECT_GUESS, {"guess": self.state.guess_input})
-            self.state.set_message("✗ Incorreto. Tente novamente!", "error")
+            self.state.set_message("Incorreto. Tente novamente!", "error")
 
         # Clear input for next attempt
         self.state.clear_guess()

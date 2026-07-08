@@ -35,19 +35,19 @@ def create_game_rounds() -> List[Round]:
     config = _load_rounds_config()
     rounds = []
     selected_rounds = [
-        random.choice(config["single_word_rounds"]),
-        random.choice(config["phrase_rounds"]),
-        random.choice(config["image_rounds"]),
-        random.choice(config["audio_rounds"]),
-        random.choice(config["mixed_rounds"]),
+        ("single_word_rounds", random.choice(config["single_word_rounds"])),
+        ("phrase_rounds", random.choice(config["phrase_rounds"])),
+        ("image_rounds", random.choice(config["image_rounds"])),
+        ("audio_rounds", random.choice(config["audio_rounds"])),
+        ("mixed_rounds", random.choice(config["mixed_rounds"])),
     ]
 
-    for round_number, round_data in enumerate(selected_rounds, start=1):
-
-        clue_type = None
-        for clue_data in round_data["clues"]:
-            clue_type = InformationType[clue_data["type"].upper()]
-            break
+    for round_number, (category_name, round_data) in enumerate(selected_rounds, start=1):
+        clue_types = {clue_data["type"].upper() for clue_data in round_data["clues"]}
+        if category_name == "mixed_rounds" or len(clue_types) > 1:
+            clue_type = InformationType.MIXED
+        else:
+            clue_type = InformationType[next(iter(clue_types))]
 
         round_obj = Round(
             round_number=round_number,

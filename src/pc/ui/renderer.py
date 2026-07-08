@@ -38,11 +38,18 @@ class Renderer:
         self.next_round_button = None  # Store next round button position
         self.image_cache = {}  # Cache loaded images
         self.current_sound = None  # Track currently playing sound
+        self.audio_clickable_areas = {}  # Store click areas for sound clues
         self.image_modal_open = False  # Track if image modal is open
         self.modal_image_path = None  # Track which image is being shown in modal
         self.modal_close_button = None  # Store close button position
         self.image_clickable_areas = {}  # Store clickable image areas
+        self.instruction_modal_open = False  # Track if the intro/phase modal is open
+        self.instruction_modal_title = ""  # Title shown in the instruction modal
+        self.instruction_modal_text = ""  # Body text shown in the instruction modal
+        self.instruction_modal_button = None  # Store close button position for the instruction modal
         self.background = BackgroundRenderer()  # Background renderer
+        self.last_round_number = None
+        self.last_game_over = False
         # Initialize audio support if available
         try:
             pygame.mixer.init()
@@ -66,6 +73,32 @@ class Renderer:
         self.tooltip_rects = {}  # Reset tooltip areas
         self.next_round_button = None  # Reset next round button
         self.image_clickable_areas = {}  # Reset image clickable areas
+        self.audio_clickable_areas = {}  # Reset sound clickable areas
+
+        if self.last_round_number is None:
+            self.last_round_number = game.state.current_round
+            if game.state.current_round == 1:
+                self._show_instruction_modal(
+                    "Construindo a torre de Babel",
+                    "Construindo a torre de Babel: vocês devem se comunicar para solucionar as palavras-chave e ajudar a construir a torre de Babel!\n\nPrimeira Fase - palavras: comunique-se para encontrar uma palavra que se associe com as palavras de cada membro da equipe. Mas atenção! Não conte sua palavra diretamente."
+                )
+        elif self.last_round_number != game.state.current_round:
+            self._stop_sound()
+            has_next_round = game.state.current_round <= len(game.state.rounds)
+            if has_next_round and game.state.current_round < len(game.state.rounds):
+                self._show_instruction_modal(
+                    self._get_phase_modal_title(game),
+                    self._get_phase_modal_text(game)
+                )
+            self.last_round_number = game.state.current_round
+
+        if self.last_game_over != game.state.game_over and game.state.game_over:
+            self._stop_sound()
+        self.last_game_over = game.state.game_over
+
+        if self.instruction_modal_open:
+            self._draw_instruction_modal(screen)
+            return
 
         # Draw header
         self._draw_header(screen, game)
@@ -92,6 +125,46 @@ class Renderer:
         # Draw game over overlay if needed
         if game.state.game_over:
             self._draw_game_over_screen(screen, game)
+
+    def _draw_instruction_modal(self, screen: pygame.Surface) -> None:
+        """Draw the intro/phase instruction modal."""
+        overlay = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.SRCALPHA)
+        overlay.fill((0, 0, 0, 200))
+        screen.blit(overlay, (0, 0))
+
+        modal_width = 760
+        modal_height = 420
+        modal_x = (WINDOW_WIDTH - modal_width) // 2
+        modal_y = (WINDOW_HEIGHT - modal_height) // 2
+
+        pygame.draw.rect(screen, SECTION_BG, pygame.Rect(modal_x, modal_y, modal_width, modal_height))
+        pygame.draw.rect(screen, ACCENT_COLOR, pygame.Rect(modal_x, modal_y, modal_width, modal_height), 3)
+
+        title = self.font_large.render(self.instruction_modal_title, True, (240, 190, 90))
+        title_rect = title.get_rect(center=(WINDOW_WIDTH // 2, modal_y + 55))
+        screen.blit(title, title_rect)
+
+        lines = []
+        for paragraph in self.instruction_modal_text.split("\n"):
+            lines.extend(self._wrap_text(paragraph, self.font_small, modal_width - 120))
+
+        text_y = modal_y + 105
+        for line in lines:
+            text_surface = self.font_small.render(line, True, (200, 200, 220))
+            screen.blit(text_surface, (modal_x + 60, text_y))
+            text_y += 30
+
+        button_width = 220
+        button_height = 56
+        button_x = (WINDOW_WIDTH - button_width) // 2
+        button_y = modal_y + modal_height - 90
+        pygame.draw.rect(screen, GOOD_COLOR, pygame.Rect(button_x, button_y, button_width, button_height))
+        pygame.draw.rect(screen, WHITE, pygame.Rect(button_x, button_y, button_width, button_height), 2)
+
+        continue_text = self.font_small.render("Continuar", True, BACKGROUND_COLOR)
+        continue_rect = continue_text.get_rect(center=(button_x + button_width // 2, button_y + button_height // 2))
+        screen.blit(continue_text, continue_rect)
+        self.instruction_modal_button = pygame.Rect(button_x, button_y, button_width, button_height)
 
     def _draw_image_modal(self, screen: pygame.Surface) -> None:
         """Draw an image modal with enlarged image and close button.
@@ -291,13 +364,20 @@ class Renderer:
                     screen.blit(error_text, error_rect)
             elif section.clue.clue_type.value in {"sound", "audio"}:
                 # Show sound indicator
-                sound_text = self.font_normal.render("SOUND", True, (240, 190, 90))  # Tower window color
+                sound_text = self.font_normal.render("AUDIO", True, (240, 190, 90))  # Tower window color
                 sound_rect = sound_text.get_rect(center=(x + width // 2, clue_y + 20))
                 screen.blit(sound_text, sound_rect)
 
-                info_text = self.font_tiny.render("CLIQUE PARA OUVIR", True, (200, 200, 220))
+                info_text = self.font_tiny.render("CLIQUE PARA TOCAR/PARAR", True, (200, 200, 220))
                 info_rect = info_text.get_rect(center=(x + width // 2, clue_y + 55))
                 screen.blit(info_text, info_rect)
+
+                self.audio_clickable_areas[section_id] = pygame.Rect(
+                    x + 10,
+                    clue_y + 5,
+                    width - 20,
+                    80
+                )
             else:
                 # Text/Phrase clues with wrapping
                 clue_text_lines = self._wrap_text(section.clue.content, self.font_tiny, width - 30)
@@ -350,7 +430,7 @@ class Renderer:
         pygame.draw.line(screen, (90, 190, 255), (50, guess_y), (WINDOW_WIDTH - 50, guess_y), 3)  # Accent color
 
         # Label
-        label = self.font_normal.render("QUAL EH A PALAVRA?", True, (240, 190, 90))  # Tower window color
+        label = self.font_normal.render("QUAL É A PALAVRA?", True, (240, 190, 90))  # Tower window color
         label_rect = label.get_rect(center=(WINDOW_WIDTH // 2, guess_y + 30))
         screen.blit(label, label_rect)
 
@@ -477,7 +557,7 @@ class Renderer:
 
             if button_rect.collidepoint(mouse_pos):
                 # Draw tooltip
-                tooltip_text = f"⚠️ Apenas Jogador {player_num} pode olhar!"
+                tooltip_text = f"Apenas Jogador {player_num} pode olhar!"
                 tooltip_surface = self.font_small.render(tooltip_text, True, WHITE)
 
                 # Tooltip background
@@ -501,6 +581,37 @@ class Renderer:
                     (tooltip_bg_rect.centerx + 10, tooltip_bg_rect.top + 15),
                 ]
                 pygame.draw.polygon(screen, BAD_COLOR, arrow_points)
+
+    def _show_instruction_modal(self, title: str, text: str) -> None:
+        """Show an instructional modal for the current phase."""
+        self.instruction_modal_open = True
+        self.instruction_modal_title = title
+        self.instruction_modal_text = text
+        self.instruction_modal_button = None
+
+    def _get_phase_modal_title(self, game: BabelGame) -> str:
+        """Return a title for the current phase modal."""
+        phase_number = game.state.current_round
+        return f"Fase {phase_number}"
+
+    def _get_phase_modal_text(self, game: BabelGame) -> str:
+        """Return the instruction text for the current phase."""
+        current_round = game.state.get_current_round_data()
+        clue_type = current_round.clue_type.value if current_round and current_round.clue_type else "mixed"
+
+        type_labels = {
+            "word": "palavras",
+            "phrase": "frases",
+            "image": "imagens",
+            "audio": "áudios",
+            "mixed": "mistas",
+        }
+
+        clue_label = type_labels.get(clue_type, "pistas")
+        return (
+            f"Próxima fase: use as pistas de {clue_label} para descobrir a palavra-chave.\n\n"
+            "Comunique-se com calma, escute os colegas e não revele sua pista diretamente."
+        )
 
     def _load_image(self, image_path: str, max_width: int = 180, max_height: int = 120, keep_ratio: bool = False) -> Optional[pygame.Surface]:
         """Load and cache an image, scaled to fit.
@@ -594,9 +705,16 @@ class Renderer:
         Returns:
             True if next round button was clicked, False otherwise
         """
+        if self.instruction_modal_open:
+            if self.instruction_modal_button and self.instruction_modal_button.collidepoint(pos):
+                self.instruction_modal_open = False
+                self.instruction_modal_button = None
+                return False
+
         # Check if modal close button was clicked
         if self.image_modal_open:
             if self.modal_close_button and self.modal_close_button.collidepoint(pos):
+                self._stop_sound()
                 self.image_modal_open = False
                 self.modal_image_path = None
                 self.modal_close_button = None
@@ -609,23 +727,35 @@ class Renderer:
                 self.modal_image_path = image_info["path"]
                 return False
 
-        # Check if next round button was clicked
-        if self.next_round_button and self.next_round_button.collidepoint(pos):
-            return True
+        # Check if the sound control area inside a revealed audio clue was clicked
+        for section_id, sound_rect in self.audio_clickable_areas.items():
+            if sound_rect.collidepoint(pos):
+                current_round = game.state.get_current_round_data()
+                if current_round:
+                    section = current_round.player_sections[section_id]
+                    if section.revealed and section.clue.clue_type.value in {"sound", "audio"}:
+                        if self.current_sound and self.current_sound.get_num_channels() > 0:
+                            self._stop_sound()
+                        else:
+                            self._play_sound(section.clue.content)
+                return False
 
-        # Check if clue buttons were clicked
+        # Check if clue buttons were clicked first
         for section_id, button_rect in self.clickable_areas.items():
             if button_rect.collidepoint(pos):
                 current_round = game.state.get_current_round_data()
                 if current_round:
                     section = current_round.player_sections[section_id]
-                    # If revealing a sound, play it
-                    if not section.revealed and section.clue.clue_type.value in {"sound", "audio"}:
-                        self._play_sound(section.clue.content)
-                    # If hiding a sound, stop it
-                    elif section.revealed and section.clue.clue_type.value in {"sound", "audio"}:
+                    if section.clue.clue_type.value not in {"sound", "audio"}:
                         self._stop_sound()
-                game.toggle_clue(section_id)
-                break
+                    elif section.revealed:
+                        self._stop_sound()
+                    game.toggle_clue(section_id)
+                return False
+
+        # Check if next round button was clicked
+        if self.next_round_button and self.next_round_button.collidepoint(pos):
+            self._stop_sound()
+            return True
 
         return False

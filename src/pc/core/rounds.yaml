@@ -280,7 +280,7 @@ phrase_rounds:
         content: "Rola a bola! Restam mais 45 minutos para o Brasil empatar o jogo!"
       - player: 3
         type: phrase
-        content: "O ontem é história, o amanhã, um mistério. Mas o hoje, é uma dádiva. É por isso que se chama presente."
+        content: "O ontem é história, o amanhã, um mistério. Mas o hoje, é uma dádiva."
 
 image_rounds:
   - word: "Asas"
@@ -489,6 +489,19 @@ audio_rounds:
         content: "assets/sounds/trem3.mp3"
 
 mixed_rounds:
+
+  - word: "Água"
+    clues:
+      - player: 1
+        type: audio
+        content: "assets/mixed/água.mp3"
+      - player: 2
+        type: phrase
+        content: "Composta por dois átomos de hidrogênio e um de oxigênio (H2O), o alto calor específico e o pH neutro."
+      - player: 3
+        type: image
+        content: "assets/mixed/água.png"
+
   - word: "França"
     clues:
       - player: 1
@@ -500,19 +513,7 @@ mixed_rounds:
       - player: 3
         type: image
         content: "assets/mixed/franca.png"
-
-  - word: "Água"
-    clues:
-      - player: 1
-        type: audio
-        content: "assets/mixed/água.mp3"
-      - player: 2
-        type: phrase
-        content: "Ela apresenta características muito particulares, como a polaridade de suas moléculas, que são compostas por dois átomos de hidrogênio e um de oxigênio (H2O), o alto calor específico e o pH neutro."
-      - player: 3
-        type: image
-        content: "assets/mixed/água.png"
-
+        
   - word: "Leão"
     clues:
       - player: 1
@@ -532,7 +533,7 @@ mixed_rounds:
         content: "assets/mixed/carpinteiro.mp3"
       - player: 2
         type: phrase
-        content: "Projetar, construir, instalar e reparar estruturas e objetos usando madeira, painéis e derivados"
+        content: "Projetar, construir, instalar e reparar estruturas e objetos usando madeira."
       - player: 3
         type: image
         content: "assets/mixed/carpinteiro.png"

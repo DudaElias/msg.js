@@ -27,6 +27,7 @@ class BackgroundRenderer:
     def __init__(self) -> None:
         """Initialize the background renderer."""
         self.canvas = pygame.Surface((VIRTUAL_WIDTH, VIRTUAL_HEIGHT))
+        self.fade_alpha = 0
 
     def draw(self, screen: pygame.Surface) -> None:
         """Draw the background on the given screen.
@@ -39,8 +40,14 @@ class BackgroundRenderer:
         self._draw_mountains()
         self._draw_tower()
 
-        # Scale the virtual canvas to window size and blit it
+        # Scale the virtual canvas to window size and blit it with a slower, softer fade-in effect
         scaled_surface = pygame.transform.scale(self.canvas, (WINDOW_WIDTH, WINDOW_HEIGHT))
+        if self.fade_alpha < 255:
+            self.fade_alpha = min(255, self.fade_alpha + 4)
+        if self.fade_alpha < 255:
+            scaled_surface.set_alpha(self.fade_alpha)
+        else:
+            scaled_surface.set_alpha(255)
         screen.blit(scaled_surface, (0, 0))
 
     def _draw_sky_gradient(self) -> None:
@@ -112,19 +119,6 @@ class BackgroundRenderer:
 
             # Detalhe de borda/relevo para parecer uma espiral ou andares definidos
             pygame.draw.rect(self.canvas, COLOR_TOWER_LIGHT, (x, y, width, 3))
-
-            # Adiciona janelas pixeladas nos andares inferiores e médios
-            if i < 6:
-                window_spacing = 14
-                window_w, window_h = 3, 5
-                # Janelas na esquerda (apagadas/escuras)
-                for wx in range(x + 8, x + width // 2 - 4, window_spacing):
-                    pygame.draw.rect(self.canvas, COLOR_TOWER_SHADOW, (wx, y + 8, window_w, window_h))
-                # Janelas na direita (iluminadas)
-                for wx in range(x + width // 2 + 6, x + width - 8, window_spacing):
-                    # Efeito levemente aleatório para parecer que algumas luzes estão apagadas
-                    if (wx + i) % 3 != 0:
-                        pygame.draw.rect(self.canvas, COLOR_WINDOW, (wx, y + 8, window_w, window_h))
 
         # Nuvem envolvendo o topo da Torre
         # Dando aquele efeito mitológico de que ela toca os céus
