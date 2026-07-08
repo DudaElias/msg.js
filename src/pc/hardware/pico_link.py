@@ -1,8 +1,10 @@
 """Serial communication with Raspberry Pi Pico."""
 
+from __future__ import annotations
+
 import sys
 import time
-from typing import Optional
+from typing import List, Optional
 
 import serial
 from serial.tools import list_ports
@@ -49,13 +51,13 @@ class PicoLink:
         except serial.SerialException:
             self.connection = None
 
-    def read_messages(self) -> list[str]:
+    def read_messages(self) -> List[str]:
         """Read all available messages from the Pico.
 
         Returns:
             List of message strings
         """
-        messages: list[str] = []
+        messages: List[str] = []
         if self.connection is None:
             return messages
 

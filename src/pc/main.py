@@ -8,7 +8,10 @@ Install dependencies first:
     pip install -r requirements.txt
 """
 
+from __future__ import annotations
+
 import argparse
+from typing import Optional, Tuple
 import sys
 
 import pygame
@@ -36,7 +39,7 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def setup_pygame() -> tuple[pygame.Surface, pygame.time.Clock]:
+def setup_pygame() -> Tuple[pygame.Surface, pygame.time.Clock]:
     """Initialize Pygame and create window.
 
     Returns:
@@ -71,14 +74,16 @@ def handle_game_events(game: BabelGame, renderer: "Renderer") -> bool:
                     game.reset_game()
                 else:
                     # Pass R to game for input (typing the letter R)
-                    game.handle_key_input(event.key)
+                    game.handle_key_input(event.key, event.unicode)
             elif event.key == pygame.K_SPACE:
-                # Space only works at game over
+                # Space is used for guess input during play and restart on game over
                 if game.state.game_over:
                     game.reset_game()
+                else:
+                    game.handle_key_input(event.key, event.unicode)
             else:
                 # Pass other keys to game for input
-                game.handle_key_input(event.key)
+                game.handle_key_input(event.key, event.unicode)
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:  # Left mouse button
                 next_round_clicked = renderer.handle_click(game, event.pos)
@@ -119,8 +124,8 @@ def main() -> int:
 
     # Initialize screens and game
     start_screen = StartScreen()
-    game: BabelGame | None = None
-    renderer: Renderer | None = None
+    game: Optional[BabelGame] = None
+    renderer: Optional[Renderer] = None
 
     # Application state
     running = True

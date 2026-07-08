@@ -1,13 +1,16 @@
 """Game data: words and clues for each round loaded from YAML."""
 
+from __future__ import annotations
+
 import os
 import yaml
 import random
+from typing import Any, Dict, List
 
 from .models import Clue, InformationType, PlayerSection, Round
 
 
-def _load_rounds_config() -> dict:
+def _load_rounds_config() -> Dict[str, Any]:
     """Load rounds configuration from YAML file.
 
     Returns:
@@ -23,7 +26,7 @@ def _load_rounds_config() -> dict:
         return {}
 
 
-def create_game_rounds() -> list[Round]:
+def create_game_rounds() -> List[Round]:
     """Create all game rounds with words and clues from YAML configuration.
 
     Returns:
@@ -41,9 +44,15 @@ def create_game_rounds() -> list[Round]:
 
     for round_number, round_data in enumerate(selected_rounds, start=1):
 
+        clue_type = None
+        for clue_data in round_data["clues"]:
+            clue_type = InformationType[clue_data["type"].upper()]
+            break
+
         round_obj = Round(
-            round_number = round_number,
-            word = round_data["word"]
+            round_number=round_number,
+            word=round_data["word"],
+            clue_type=clue_type,
         )
 
         # Create player sections with clues

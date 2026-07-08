@@ -1,6 +1,9 @@
 """Game rendering for Rise of Babel."""
 
+from __future__ import annotations
+
 import os
+from typing import List, Optional, Tuple
 import pygame
 
 from .background import BackgroundRenderer
@@ -40,6 +43,11 @@ class Renderer:
         self.modal_close_button = None  # Store close button position
         self.image_clickable_areas = {}  # Store clickable image areas
         self.background = BackgroundRenderer()  # Background renderer
+        # Initialize audio support if available
+        try:
+            pygame.mixer.init()
+        except pygame.error:
+            print("Warning: Could not initialize pygame mixer")
         # Get path to project root (msg.js folder)
         current_dir = os.path.dirname(os.path.abspath(__file__))  # src/pc
         self.project_root = os.path.dirname(os.path.dirname(current_dir))  # msg.js
@@ -281,7 +289,7 @@ class Renderer:
                     error_text = self.font_tiny.render("Imagem não encontrada", True, (255, 170, 80))
                     error_rect = error_text.get_rect(center=(x + width // 2, clue_y + 20))
                     screen.blit(error_text, error_rect)
-            elif section.clue.clue_type.value == "sound":
+            elif section.clue.clue_type.value in {"sound", "audio"}:
                 # Show sound indicator
                 sound_text = self.font_normal.render("SOUND", True, (240, 190, 90))  # Tower window color
                 sound_rect = sound_text.get_rect(center=(x + width // 2, clue_y + 20))
@@ -300,7 +308,7 @@ class Renderer:
                     screen.blit(text_surface, text_rect)
                     text_y += 25
 
-    def _wrap_text(self, text: str, font: pygame.font.Font, max_width: int) -> list[str]:
+    def _wrap_text(self, text: str, font: pygame.font.Font, max_width: int) -> List[str]:
         """Wrap text to fit within a maximum width.
 
         Args:
@@ -494,7 +502,7 @@ class Renderer:
                 ]
                 pygame.draw.polygon(screen, BAD_COLOR, arrow_points)
 
-    def _load_image(self, image_path: str, max_width: int = 180, max_height: int = 120, keep_ratio: bool = False) -> pygame.Surface | None:
+    def _load_image(self, image_path: str, max_width: int = 180, max_height: int = 120, keep_ratio: bool = False) -> Optional[pygame.Surface]:
         """Load and cache an image, scaled to fit.
 
         Args:
@@ -555,15 +563,28 @@ class Renderer:
         if self.current_sound:
             self.current_sound.stop()
 
-        full_path = os.path.join(self.project_root, sound_path)
-        try:
-            self.current_sound = pygame.mixer.Sound(full_path)
-            self.current_sound.play()
-        except (pygame.error, FileNotFoundError):
-            print(f"Warning: Could not load sound {full_path}")
-            self.current_sound = None
+        candidates = []
+        if sound_path:
+            candidates.append(sound_path)
+            candidates.append(os.path.join("src", sound_path))
+            candidates.append(os.path.join("src", "assets", sound_path))
+            candidates.append(os.path.join(self.project_root, sound_path))
+            candidates.append(os.path.join(self.project_root, "src", sound_path))
+            candidates.append(os.path.join(self.project_root, "src", "assets", sound_path))
 
-    def handle_click(self, game: BabelGame, pos: tuple[int, int]) -> bool:
+        for candidate in candidates:
+            if os.path.exists(candidate):
+                try:
+                    self.current_sound = pygame.mixer.Sound(candidate)
+                    self.current_sound.play()
+                    return
+                except (pygame.error, FileNotFoundError):
+                    print(f"Warning: Could not load sound {candidate}")
+
+        print(f"Warning: Could not find sound file for {sound_path}")
+        self.current_sound = None
+
+    def handle_click(self, game: BabelGame, pos: Tuple[int, int]) -> bool:
         """Handle mouse clicks on buttons.
 
         Args:
@@ -599,10 +620,10 @@ class Renderer:
                 if current_round:
                     section = current_round.player_sections[section_id]
                     # If revealing a sound, play it
-                    if not section.revealed and section.clue.clue_type.value == "sound":
+                    if not section.revealed and section.clue.clue_type.value in {"sound", "audio"}:
                         self._play_sound(section.clue.content)
                     # If hiding a sound, stop it
-                    elif section.revealed and section.clue.clue_type.value == "sound":
+                    elif section.revealed and section.clue.clue_type.value in {"sound", "audio"}:
                         self._stop_sound()
                 game.toggle_clue(section_id)
                 break

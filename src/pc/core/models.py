@@ -1,8 +1,10 @@
 """Data models for the game."""
 
+from __future__ import annotations
+
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Optional
+from typing import List, Optional
 
 
 class InformationType(Enum):
@@ -59,7 +61,8 @@ class Round:
 
     round_number: int
     word: str
-    player_sections: list[PlayerSection] = field(default_factory=list)
+    clue_type: Optional[InformationType] = None
+    player_sections: List[PlayerSection] = field(default_factory=list)
     guessed: bool = False
     correct_guess: bool = False
 
@@ -69,7 +72,7 @@ class GameState:
     """Tracks the overall game state."""
 
     current_round: int = 1
-    rounds: list[Round] = field(default_factory=list)
+    rounds: List[Round] = field(default_factory=list)
     guess_input: str = ""
     game_message: str = ""
     message_type: str = "info"  # 'info', 'success', 'error'

@@ -311,13 +311,13 @@ image_rounds:
     clues:
       - player: 1
         type: image
-        content: "assets/images/copadomundo1.jpg"
+        content: "assets/images/copa do mundo1.jpg"
       - player: 2
         type: image
-        content: "assets/images/copadomundo2.jpeg"
+        content: "assets/images/copa do mundo2.jpeg"
       - player: 3
         type: image
-        content: "assets/images/copadomundo3.jpeg"
+        content: "assets/images/copa do mundo3.jpeg"
 
   - word: "Filme"
     clues:
@@ -335,13 +335,13 @@ image_rounds:
     clues:
       - player: 1
         type: image
-        content: "assets/images/franca1.jpg"
+        content: "assets/images/frança1.jpg"
       - player: 2
         type: image
-        content: "assets/images/franca2.png"
+        content: "assets/images/frança2.png"
       - player: 3
         type: image
-        content: "assets/images/franca3.png"
+        content: "assets/images/frança3.png"
 
   - word: "Gato"
     clues:
@@ -383,13 +383,13 @@ image_rounds:
     clues:
       - player: 1
         type: image
-        content: "assets/images/vemelho1.jpg"
+        content: "assets/images/vermelho1.jpg"
       - player: 2
         type: image
-        content: "assets/images/vemelho2.jpg"
+        content: "assets/images/vermelho2.jpg"
       - player: 3
         type: image
-        content: "assets/images/vemelho3.png"
+        content: "assets/images/vermelho3.png"
 
 audio_rounds:
   - word: "Dinheiro"
@@ -474,7 +474,7 @@ audio_rounds:
         content: "assets/sounds/oceano2.mp3"
       - player: 3
         type: audio
-        content: "assets/sounds/oceano3(2).mp3"
+        content: "assets/sounds/oceano3 (2).mp3"
 
   - word: "Trem"
     clues:
@@ -505,25 +505,25 @@ mixed_rounds:
     clues:
       - player: 1
         type: audio
-        content: "assets/mixed/agua.mp3"
+        content: "assets/mixed/água.mp3"
       - player: 2
         type: phrase
         content: "Ela apresenta características muito particulares, como a polaridade de suas moléculas, que são compostas por dois átomos de hidrogênio e um de oxigênio (H2O), o alto calor específico e o pH neutro."
       - player: 3
         type: image
-        content: "assets/mixed/agua.png"
+        content: "assets/mixed/água.png"
 
   - word: "Leão"
     clues:
       - player: 1
         type: audio
-        content: "assets/mixed/leao.mp3"
+        content: "assets/mixed/leão.mp3"
       - player: 2
         type: phrase
         content: "Os seus problemas você deve esquecer! Isso é viver! É aprender! Hakuna Matata!"
       - player: 3
         type: image
-        content: "assets/mixed/leao.png"
+        content: "assets/mixed/leão.png"
 
   - word: "Carpinteiro"
     clues:

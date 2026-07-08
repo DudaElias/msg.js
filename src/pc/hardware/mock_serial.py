@@ -1,8 +1,10 @@
 """Mock serial connection for testing without a real Pico."""
 
+from __future__ import annotations
+
 import random
 import time
-from typing import Optional
+from typing import List, Optional
 
 
 class MockSerial:
@@ -20,7 +22,7 @@ class MockSerial:
         self.baudrate = baudrate
         self.timeout = timeout
         self.in_waiting = 0
-        self._message_queue: list[str] = []
+        self._message_queue: List[str] = []
         self._last_command = ""
 
     def write(self, data: bytes) -> int:

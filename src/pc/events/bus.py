@@ -1,8 +1,10 @@
 """Game event system for decoupled event handling."""
 
+from __future__ import annotations
+
 from dataclasses import dataclass
 from enum import Enum
-from typing import Callable
+from typing import Callable, Dict, List
 
 
 class EventType(Enum):
@@ -31,7 +33,7 @@ class EventBus:
 
     def __init__(self) -> None:
         """Initialize the event bus."""
-        self.subscribers: dict[EventType, list[Callable]] = {}
+        self.subscribers: Dict[EventType, List[Callable]] = {}
 
     def subscribe(self, event_type: EventType, handler: Callable) -> None:
         """Subscribe to an event type.

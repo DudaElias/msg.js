@@ -1,5 +1,9 @@
 """Game logic for Rise of Babel."""
 
+from __future__ import annotations
+
+from typing import Optional
+
 from pc.events import EventBus, EventType, GameEvent
 from .models import GameState, Round
 from pc.hardware import PicoLink
@@ -9,7 +13,7 @@ from .game_data import create_game_rounds
 class BabelGame:
     """Manages the Rise of Babel game logic."""
 
-    def __init__(self, link: PicoLink, event_bus: EventBus | None = None) -> None:
+    def __init__(self, link: PicoLink, event_bus: Optional[EventBus] = None) -> None:
         """Initialize the game.
 
         Args:
@@ -22,24 +26,25 @@ class BabelGame:
         self.state.rounds = create_game_rounds()
         self._publish_event(EventType.GAME_STARTED, {})
 
-    def handle_key_input(self, key: int) -> None:
+    def handle_key_input(self, key: int, text: str = "") -> None:
         """Handle keyboard input during gameplay.
 
         Args:
             key: pygame key code
+            text: Optional text character from the key event
         """
         import pygame
 
-        if pygame.K_a <= key <= pygame.K_z:
-            # Letter key
-            char = chr(key - pygame.K_a + ord("A"))
-            self.state.add_guess_char(char)
-        elif key == pygame.K_BACKSPACE:
+        if key == pygame.K_BACKSPACE:
             self.state.remove_guess_char()
         elif key == pygame.K_RETURN:
             self.submit_guess()
         elif key == pygame.K_DELETE:
             self.state.clear_guess()
+        elif key == pygame.K_SPACE:
+            self.state.add_guess_char(" ")
+        elif text:
+            self.state.add_guess_char(text)
 
     def _publish_event(self, event_type: EventType, data: dict) -> None:
         """Publish a game event.

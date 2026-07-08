@@ -18,7 +18,7 @@ clean:
 	@echo "Cleaned up cache and build files"
 
 list-ports:
-	python -m serial.tools.list_ports
+	python3 -m serial.tools.list_ports
 
 play:
 	@if [ -z "$(PORT)" ]; then \
@@ -26,7 +26,7 @@ play:
 		echo "Usage: make play PORT=COM5"; \
 		exit 1; \
 	fi
-	PYTHONPATH=src python src/pc/main.py $(PORT)
+	PYTHONPATH=src python3 src/pc/main.py $(PORT)
 
 play-mock:
-	PYTHONPATH=src python src/pc/main.py --mock
+	PYTHONPATH=src python3 src/pc/main.py --mock

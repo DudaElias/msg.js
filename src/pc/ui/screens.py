@@ -1,6 +1,9 @@
 """Game screens (menu, instructions, etc)."""
 
+from __future__ import annotations
+
 import pygame
+from typing import Tuple
 
 from .background import BackgroundRenderer
 from ..utils.config import (
@@ -213,7 +216,7 @@ class StartScreen:
         footer_rect = footer.get_rect(center=(WINDOW_WIDTH // 2, WINDOW_HEIGHT - 30))
         screen.blit(footer, footer_rect)
 
-    def handle_input(self) -> tuple[bool, str]:
+    def handle_input(self) -> Tuple[bool, str]:
         """Handle input on start screen.
 
         Returns:
